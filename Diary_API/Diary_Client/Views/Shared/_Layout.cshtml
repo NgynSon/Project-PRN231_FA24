@@ -1,0 +1,332 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="~/style.css">
+    <title>Socialbook - html css template</title>
+    <script src="https://kit.fontawesome.com/ef7e2b893b.js" crossorigin="anonymous"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f0f0f0;
+        }
+
+        h1 {
+            margin-top: 20px;
+            color: #333;
+        }
+
+        .post {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px;
+            border-radius: 5px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s ease-in-out;
+        }
+
+            .post:hover {
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            }
+
+        .post-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .user-info {
+            font-weight: bold;
+            color: #555;
+        }
+
+        .post-content {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .container {
+            width: 100% !important;
+        }
+
+        .comments {
+            display: none;
+            margin-top: 10px;
+            padding: 10px;
+            border-top: 1px solid #ccc;
+        }
+
+        .comment {
+            margin-bottom: 8px;
+            padding: 8px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+        }
+
+            .comment strong {
+                font-weight: bold;
+                color: #555;
+            }
+
+        .comment-content {
+            margin-top: 4px;
+            color: #333;
+        }
+
+        .reply {
+            margin-left: 20px;
+            background-color: #efefef;
+            padding: 5px;
+            border-radius: 3px;
+        }
+
+            .reply strong {
+                font-weight: bold;
+                color: #555;
+            }
+
+        .reply-content {
+            margin-top: 2px;
+            color: #333;
+        }
+
+        .interact-buttons {
+            display: flex;
+            align-items: center;
+        }
+
+        button {
+            padding: 6px 10px;
+            margin-right: 6px;
+            border: none;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+
+            button:hover {
+                background-color: #0056b3;
+            }
+
+        .add-comment-box {
+            margin-top: 10px;
+        }
+
+            .add-comment-box textarea {
+                width: 100%;
+                padding: 8px;
+                border-radius: 3px;
+                border: 1px solid #ccc;
+            }
+
+            .add-comment-box button {
+                margin: 0px 0px 6px 0px;
+                background-color: #28a745;
+
+            }
+
+                .add-comment-box button:hover {
+                    background-color: #218838;
+                }
+
+        .add-reply-box{
+            display:flex;
+            margin: 10px 0px 10px 0px;
+        }
+
+            .add-reply-box textarea{
+                margin-right: 6px;
+            }
+
+    </style>
+</head>
+
+<body>
+
+    <!-- content-area------------ -->
+    @{
+        string? userName = Context.Session.GetString("Username");
+        var userId = Context.Session.GetString("UserId");
+        string? name = Context.Session.GetString("Name");
+
+        <div>
+            <nav class="navbar">
+                <div class="nav-left">
+
+                    <a href="https://localhost:7229/Home"><img class="logo" src="~/images/logo.png" alt=""></a>
+
+                    <ul class="navlogo">
+                        <li><img src="~/images/notification.png"></li>
+                        <li><img src="~/images/inbox.png"></li>
+                        <li><img src="~/images/video.png"></li>
+                    </ul>
+                </div>
+                <div class="nav-right">
+                    <div class="search-box">
+                        <img src="~/images/search.png" alt="">
+                        <input type="text" placeholder="Search">
+                    </div>
+                    <div class="profile-image online" onclick="UserSettingToggle()">
+                        <img src="~/images/profile-pic.png" alt="">
+                    </div>
+                </div>
+                <div class="user-settings">
+                    <div class="profile-darkButton">
+                        <div class="user-profile">
+                            <img src="~/images/profile-pic.png" alt="">
+                            <div>
+                                <p> @name</p>
+                                <a href="/Post/Index">See your profile</a>
+                            </div>
+                        </div>
+                        <div id="dark-button" onclick="darkModeON()">
+                            <span></span>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="user-profile">
+                        <img src="~/images/feedback.png" alt="">
+                        <div>
+                            <p> Give Feedback</p>
+                            <a href="#">Help us to improve</a>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="settings-links">
+                        <img src="~/images/setting.png" alt="" class="settings-icon">
+                        <a href="#">Settings & Privary <img src="~/images/arrow.png" alt=""></a>
+                    </div>
+
+                    <div class="settings-links">
+                        <img src="~/images/help.png" alt="" class="settings-icon">
+                        <a href="#">Help & Support <img src="~/images/arrow.png" alt=""></a>
+                    </div>
+
+                    <div class="settings-links">
+                        <img src="~/images/Display.png" alt="" class="settings-icon">
+                        <a href="#">Display & Accessibility <img src="~/images/arrow.png" alt=""></a>
+                    </div>
+                    <div class="settings-links">
+                        <img src="~/images/logout.png" alt="" class="settings-icon">
+                        @if (userId == null)
+                        {
+                            <a href="/Login/Index">Login <img src="~/images/arrow.png" alt=""></a>
+                        }
+                        else
+
+                        {
+                            <a href="/Login/Logout">Logout <img src="~/images/arrow.png" alt=""></a>
+
+                        }
+                    </div>
+                </div>
+
+            </nav>
+           
+
+        </div>
+
+
+    }
+    <div class="container">
+        <div class="left-sidebar">
+            <div class="important-links">
+                <a href="#"><img src="~/images/news.png" alt="">Latest News</a>
+                <a href="#"><img src="~/images/friends.png" alt="">Friends</a>
+                <a href="#"><img src="~/images/group.png" alt="">Groups</a>
+                <a href="#"><img src="~/images/marketplace.png" alt="">marketplace</a>
+                <a href="#"><img src="~/images/watch.png" alt="">Watch</a>
+                <a href="#">See More</a>
+            </div>
+
+            <div class="shortcut-links">
+                <p>Your Shortcuts</p>
+                <a href="#"> <img src="~/images/shortcut-1.png" alt="">Web Developers</a>
+                <a href="#"> <img src="~/images/shortcut-2.png" alt="">Web Design Course</a>
+                <a href="#"> <img src="~/images/shortcut-3.png" alt="">Full Stack Development</a>
+                <a href="#"> <img src="~/images/shortcut-4.png" alt="">Website Experts</a>
+            </div>
+        </div>
+
+        <!-- main-content------- -->
+        @RenderBody()
+        <!-- sidebar------------ -->
+        <div class="right-sidebar">
+            <div class="heading-link">
+                <h4>Events</h4>
+                <a href="">See All</a>
+            </div>
+
+            <div class="events">
+                <div class="left-event">
+                    <h4>13</h4>
+                    <span>august</span>
+                </div>
+                <div class="right-event">
+                    <h4>Social Media</h4>
+                    <p> <i class="fas fa-map-marker-alt"></i> wisdom em Park</p>
+                    <a href="#">More Info</a>
+                </div>
+            </div>
+            <div class="events">
+                <div class="left-event">
+                    <h4>18</h4>
+                    <span>January</span>
+                </div>
+                <div class="right-event">
+                    <h4>Mobile Marketing</h4>
+                    <p><i class="fas fa-map-marker-alt"></i> wisdom em Park</p>
+                    <a href="#">More Info</a>
+                </div>
+            </div>
+
+            <div class="heading-link">
+                <h4>Advertisement</h4>
+                <a href="">Close</a>
+            </div>
+            <div class="advertisement">
+                <img src="~/images/advertisement.png" class="advertisement-image" alt="">
+            </div>
+
+            <div class="heading-link">
+                <h4>Conversation</h4>
+                <a href="">Hide Chat</a>
+            </div>
+
+            <div class="online-list">
+                <div class="online">
+                    <img src="~/images/member-1.png" alt="">
+                </div>
+                <p>Alison Mina</p>
+            </div>
+
+            <div class="online-list">
+                <div class="online">
+                    <img src="~/images/member-2.png" alt="">
+                </div>
+                <p>Jackson Aston</p>
+            </div>
+            <div class="online-list">
+                <div class="online">
+                    <img src="~/images/member-3.png" alt="">
+                </div>
+                <p>Samona Rose</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/function.js"></script>
+</body>
+</html>
